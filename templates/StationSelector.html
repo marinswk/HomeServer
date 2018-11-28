@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Station Selector</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/Style/Loader.css">
+</head>
+
+<body onload="showPage()">
+
+    <script>
+        function showPage() {
+            $('#loader').fadeOut();
+            $('#stationSelector').fadeIn();
+        }
+
+        $(function() {
+            $('#stationSubmit').bind('click', function() {
+                window.location.href = "/display/" + $('#stationName').val();
+                return false
+            });
+        });
+    </script>
+
+    <div id="loader"></div>
+    <div id="stationSelector" style="display:none;" class="animate-bottom">
+        <label for="stationName">Station Name: </label>
+        <input type="text" id="stationName" value="Feuerbachstraße"><br>
+        <input id="stationSubmit" type="submit" value="Select">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Departures</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/Style/Loader.css">
+</head>
+
+<body>
+    <script>
+        $.ajax({
+                type: "GET",
+                url: "/departures/{{station_name}}",
+                success: function (data) {
+                    $('#loader').fadeOut();
+                    $('#travels').fadeIn();
+                    $('#StationSelection').fadeIn();
+                    var parsed_data = JSON.parse(data);
+
+                    $.each(parsed_data, function (index, item) {
+                        $('#travels').append(
+                            "<li>" + item['line_name'] +
+                            "<ul>" +
+                            "<li>Direction: " + item['direction'] + "</li>" +
+                            "<li>Platform: " + (item['platform'] == null ? '-' : item['platform'])+ "</li>" +
+                            "<li>Time: " + (item['time'] == null ? '-' : item['time']) + "</li>" +
+                            "<li>Delay (sec): " + (item['delay'] == null ? '-' : item['delay']) + "</li>" +
+                            "</ul>" +
+                            "</li>" +
+                            "</ul>"
+                        );
+                    });
+                }
+            });
+
+        $(function() {
+                $('#StationSelection').bind('click', function() {
+
+                    window.location.href = "/display";
+                    return false
+                });
+        });
+    </script>
+
+    <div id="loader"></div>
+    <ul id="travels" style="display:none;" class="animate-bottom"></ul>
+    <input id="StationSelection" type="submit" value="Select" style="display:none;" class="animate-bottom">
+</body>
+
+</html>
