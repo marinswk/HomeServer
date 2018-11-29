@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/Style/Loader.css">
+</head>
+
+<body>
+    <style type="text/css">
+        .animate-bottom td {
+            border-spacing:0;
+            border: 1px solid black;
+        }
+    </style>
+
+    <script>
+        $.ajax({
+                type: "GET",
+                url: "/weather/{{city_name}}/{{country}}",
+                success: function (data) {
+
+                    $('#loader').fadeOut();
+                    $('#weatherPanel').fadeIn();
+
+                    var weatherData = JSON.parse(data);
+
+                    $("#weatherIcon").attr("src", weatherData['icon_url']);
+                    $('#main').text(weatherData['main']);
+                    $('#description').text(weatherData['description']);
+                    $('#temp').text("Temperature: " + weatherData['temp'] + "°C");
+                    $('#humidity').text("Humidity: " + weatherData['humidity'] + "%");
+                    $('#pressure').text("Pressure: " + weatherData['pressure'] + " mb");
+                    $('#wind_speed').text("Wind Speed: " + weatherData['wind_speed'] + " km/h");
+                    $('#sunrise').text("Sunrise: " + weatherData['sunrise']);
+                    $('#sunset').text("Sunset: " + weatherData['sunset']);
+                    $('#temp_min').text("Temp. Min: " + weatherData['temp_min'] + "°C");
+                    $('#temp_max').text("Temp. Max: " + weatherData['temp_max'] + "°C");
+                }
+            });
+    </script>
+
+    <div id="loader"></div>
+
+    <table id="weatherPanel" style="display:none;" class="animate-bottom">
+
+        <tr>
+            <td rowspan="2">
+                <img id="weatherIcon" src="" width="100" height="100">
+            </td>
+            <td>
+                <p id="main"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="description"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="temp"></p>
+            </td>
+            <td>
+                <p id="humidity"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="pressure"></p>
+            </td>
+            <td>
+                <p id="wind_speed"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="temp_min"></p>
+            </td>
+            <td>
+                <p id="temp_max"></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="sunrise"></p>
+            </td>
+            <td>
+                <p id="sunset"></p>
+            </td>
+        </tr>
+
+
+    </table>
+</body>
+
+</html>
