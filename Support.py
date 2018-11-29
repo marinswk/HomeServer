@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from dateutil import tz
 from urllib import request
 
 
@@ -28,11 +29,12 @@ def convert_utc_unix_timestamp_to_local_time_string(utc_string):
 
 def compare_dates(date_one, date_two):
 	try:
-		converted_date_one = datetime.utcfromtimestamp(date_one).replace(tzinfo=timezone.utc).astimezone(
-			tz=None)
-		converted_date_two = datetime.utcfromtimestamp(date_two).replace(tzinfo=timezone.utc).astimezone(
-			tz=None)
-		if converted_date_one < datetime.now().astimezone(tz=None) < converted_date_two:
+		from_zone = tz.gettz('UTC')
+		to_zone = tz.gettz('Europe/Berlin')
+		converted_date_one = datetime.utcfromtimestamp(date_one).replace(tzinfo=from_zone).astimezone(to_zone)
+		converted_date_two = datetime.utcfromtimestamp(date_two).replace(tzinfo=from_zone).astimezone(to_zone)
+
+		if converted_date_one < datetime.now(to_zone) < converted_date_two:
 			return True
 		else:
 			return False

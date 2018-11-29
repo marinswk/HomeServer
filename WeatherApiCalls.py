@@ -34,13 +34,11 @@ def get_city_weather_by_id(city_id):
 		url = "https://api.openweathermap.org/data/2.5/weather?id=" + str(city_id) \
 			+ "&units=metric&appid=" + open_weather_map_api_key
 
-		weather_object = Weather(
-			json.loads(
-				fetch_url(
-					url
-				)
-			)
-		)
+		response = fetch_url(url)
+		if type(response) == bytes:
+			response = response.decode("utf-8")
+		weather_dict = json.loads(response)
+		weather_object = Weather(weather_dict)
 
 		return weather_object
 

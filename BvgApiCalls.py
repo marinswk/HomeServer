@@ -29,12 +29,15 @@ def get_station_id_by_name(station_name):
 	try:
 		url = "https://1.bvg.transport.rest/locations?addresses=false&query=" + quote(station_name)
 
-		result = fetch_url(url)
+		response = fetch_url(url)
 
-		if not result:
+		if not response:
 			return None
 
-		stations = json.loads(result)
+		if type(response) == bytes:
+			response = response.decode("utf-8")
+
+		stations = json.loads(response)
 		first_station = stations.pop(0)
 
 		return Station(first_station['id'], first_station['name'])
@@ -53,12 +56,15 @@ def get_station_departures(station_id, time=None):
 		if time:
 			url += '?when=' + time
 
-		result = fetch_url(url)
+		response = fetch_url(url)
 
-		if not result:
+		if not response:
 			return None
 
-		result = json.loads(result)
+		if type(response) == bytes:
+			response = response.decode("utf-8")
+
+		result = json.loads(response)
 
 		for _ in result:
 			date = parse(_['when']) if _['when'] else _['when']
