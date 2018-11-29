@@ -24,3 +24,20 @@ def convert_utc_unix_timestamp_to_local_time_string(utc_string):
 
 		print(ex)
 		raise ex
+
+
+def compare_dates(date_one, date_two):
+	try:
+		converted_date_one = datetime.utcfromtimestamp(date_one).replace(tzinfo=timezone.utc).astimezone(
+			tz=None)
+		converted_date_two = datetime.utcfromtimestamp(date_two).replace(tzinfo=timezone.utc).astimezone(
+			tz=None)
+		if converted_date_one < datetime.now().astimezone(tz=None) < converted_date_two:
+			return True
+		else:
+			return False
+
+	except Exception as ex:
+
+		print(ex)
+		raise ex

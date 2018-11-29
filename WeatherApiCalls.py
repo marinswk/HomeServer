@@ -1,4 +1,4 @@
-from Support import fetch_url, convert_utc_unix_timestamp_to_local_time_string
+from Support import fetch_url, convert_utc_unix_timestamp_to_local_time_string, compare_dates
 import json
 
 open_weather_map_api_key = '##'
@@ -8,9 +8,11 @@ weather_image_base_url = 'http://openweathermap.org/img/w/'  # attach image id a
 class Weather:
 
 	def __init__(self, weather_dict):
+
 		self.name = weather_dict['name']
 		self.main = weather_dict['weather'][0]['main']
 		self.description = weather_dict['weather'][0]['description']
+		self.icon_id = weather_dict['weather'][0]['id']
 		self.icon_url = 'http://openweathermap.org/img/w/' + weather_dict['weather'][0]['icon'] + '.png'
 		self.temp = weather_dict['main']['temp']
 		self.pressure = weather_dict['main']['pressure']
@@ -20,6 +22,11 @@ class Weather:
 		self.wind_speed = weather_dict['wind']['speed']
 		self.sunrise = convert_utc_unix_timestamp_to_local_time_string(weather_dict['sys']['sunrise'])
 		self.sunset = convert_utc_unix_timestamp_to_local_time_string(weather_dict['sys']['sunset'])
+
+		if compare_dates(weather_dict['sys']['sunrise'], weather_dict['sys']['sunset']):
+			self.icon_suffix = '-d'
+		else:
+			self.icon_suffix = '-n'
 
 
 def get_city_weather_by_id(city_id):

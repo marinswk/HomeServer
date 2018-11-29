@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>Weather</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/Style/Loader.css">
+    <link rel="stylesheet" type="text/css" href="/static/Style/Loader.css">
+    <link href="/static/Style/owfont/css/owfont-regular.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -27,13 +28,13 @@
 
                     var weatherData = JSON.parse(data);
 
-                    $("#weatherIcon").attr("src", weatherData['icon_url']);
+                    $("#weatherIcon").addClass("owf owf-5x owf-" + weatherData['icon_id'] + weatherData['icon_suffix']);
                     $('#main').text(weatherData['main']);
                     $('#description').text(weatherData['description']);
                     $('#temp').text("Temperature: " + weatherData['temp'] + "°C");
                     $('#humidity').text("Humidity: " + weatherData['humidity'] + "%");
                     $('#pressure').text("Pressure: " + weatherData['pressure'] + " mb");
-                    $('#wind_speed').text("Wind Speed: " + weatherData['wind_speed'] + " km/h");
+                    $('#wind_speed').text("Wind Speed: " + weatherData['wind_speed'] + " m/s");
                     $('#sunrise').text("Sunrise: " + weatherData['sunrise']);
                     $('#sunset').text("Sunset: " + weatherData['sunset']);
                     $('#temp_min').text("Temp. Min: " + weatherData['temp_min'] + "°C");
@@ -48,7 +49,7 @@
 
         <tr>
             <td rowspan="2">
-                <img id="weatherIcon" src="" width="100" height="100">
+                <i id="weatherIcon"></i>
             </td>
             <td>
                 <p id="main"></p>
