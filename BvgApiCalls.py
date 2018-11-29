@@ -1,6 +1,6 @@
-from urllib import request
 from urllib.parse import quote
 from dateutil.parser import parse
+from Support import fetch_url
 import json
 
 
@@ -25,25 +25,11 @@ class Travel:
 		self.transport_type = transport_type
 
 
-def __fetch_url(url):
-	try:
-
-		req = request.Request(url)
-		with request.urlopen(req) as response:
-			response = response.read()
-
-		return response
-
-	except Exception as ex:
-
-		print(ex)
-
-
 def get_station_id_by_name(station_name):
 	try:
 		url = "https://1.bvg.transport.rest/locations?addresses=false&query=" + quote(station_name)
 
-		result = __fetch_url(url)
+		result = fetch_url(url)
 
 		if not result:
 			return None
@@ -67,7 +53,7 @@ def get_station_departures(station_id, time=None):
 		if time:
 			url += '?when=' + time
 
-		result = __fetch_url(url)
+		result = fetch_url(url)
 
 		if not result:
 			return None
