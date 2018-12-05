@@ -1,9 +1,16 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session
+import Database.HomeServerDBOperations as HomeServerDBOperations
 import jsonpickle
 import BvgApiCalls
 import WeatherApiCalls
+import GKeepApi
 
 app = Flask(__name__)
+
+configurations = HomeServerDBOperations.read_configurations()
+config_dictionary = {x.name: x.value for x in configurations}
+
+app.secret_key = config_dictionary["FlaskSecretKey"]
 
 
 @app.route('/departures/<station_name>', methods=["GET"])
@@ -58,6 +65,37 @@ def display_city_weather(city_name, country):
 			return render_template('Weather.html', city_name=city_name, country=country)
 		else:
 			return render_template('StationSelector.html')
+
+	except Exception as ex:
+
+		return render_template('Errors.html', error_message=str(ex))
+
+
+@app.route('/gkeep/getgrocerieslist', methods=["GET"])
+def get_groceries_list():
+	try:
+
+		response = GKeepApi.get_keep_groceries_list()
+		if response["Status"]:
+			return jsonpickle.encode(response["Items"])
+		else:
+			return render_template('Errors.html', error_message=response["Exception"])
+
+	except Exception as ex:
+
+		return render_template('Errors.html', error_message=str(ex))
+
+
+@app.route('/home', methods=["GET"])
+def display_home():
+	try:
+		session['configurations'] = config_dictionary
+		return render_template(
+			'Home.html',
+			station_name=config_dictionary["BVGStationName"],
+			city_name=config_dictionary["WeatherCityName"],
+			country=config_dictionary["WeatherCountry"]
+		)
 
 	except Exception as ex:
 

@@ -1,7 +1,8 @@
+from flask import session
 from Support import fetch_url, convert_utc_unix_timestamp_to_local_time_string, compare_dates
 import json
 
-open_weather_map_api_key = '##'
+
 weather_image_base_url = 'http://openweathermap.org/img/w/'  # attach image id and .png at the end of the string
 
 
@@ -32,7 +33,7 @@ class Weather:
 def get_city_weather_by_id(city_id):
 	try:
 		url = "https://api.openweathermap.org/data/2.5/weather?id=" + str(city_id) \
-			+ "&units=metric&appid=" + open_weather_map_api_key
+			+ "&units=metric&appid=" + session['configurations']['OpenWeatherMapApiKey']
 
 		response = fetch_url(url)
 		if type(response) == bytes:

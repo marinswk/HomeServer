@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href="/static/Style/Loader.css" rel="stylesheet" type="text/css">
+    <link href="/static/Style/owfont/css/owfont-regular.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <style>
+        #mainScreen, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <script>
+        $.ajax({
+                type: "GET",
+                url: "/departures/{{ station_name }}",
+                success: function (data) {
+
+
+                    $('#travels').fadeIn();
+                    var parsed_data = JSON.parse(data);
+
+                    $.each(parsed_data, function (index, item) {
+                        $('#travels').append(
+                            "<li>" + item['line_name'] +
+                            "<ul>" +
+                            "<li>Direction: " + item['direction'] + "</li>" +
+                            "<li>Platform: " + (item['platform'] == null ? '-' : item['platform'])+ "</li>" +
+                            "<li>Time: " + (item['time'] == null ? '-' : item['time']) + "</li>" +
+                            "<li>Delay (sec): " + (item['delay'] == null ? '-' : item['delay']) + "</li>" +
+                            "</ul>" +
+                            "</li>" +
+                            "</ul>"
+                        );
+                    });
+                }
+        });
+
+        $.ajax({
+                type: "GET",
+                url: "/weather/{{ city_name }}/{{ country }}",
+                success: function (data) {
+
+                    $('#loader').fadeOut();
+                    $('#mainScreen').fadeIn();
+                    $('#weatherPanel').fadeIn();
+
+                    var weatherData = JSON.parse(data);
+
+                    $("#weatherIcon").addClass("owf owf-5x owf-" + weatherData['icon_id'] + weatherData['icon_suffix']);
+                    $('#main').text(weatherData['main']);
+                    $('#description').text(weatherData['description']);
+                    $('#temp').text("Temperature: " + weatherData['temp'] + "°C");
+                    $('#humidity').text("Humidity: " + weatherData['humidity'] + "%");
+                    $('#pressure').text("Pressure: " + weatherData['pressure'] + " mb");
+                    $('#wind_speed').text("Wind Speed: " + weatherData['wind_speed'] + " m/s");
+                    $('#sunrise').text("Sunrise: " + weatherData['sunrise']);
+                    $('#sunset').text("Sunset: " + weatherData['sunset']);
+                    $('#temp_min').text("Temp. Min: " + weatherData['temp_min'] + "°C");
+                    $('#temp_max').text("Temp. Max: " + weatherData['temp_max'] + "°C");
+                }
+        });
+
+        $.ajax({
+                type: "GET",
+                url: "/gkeep/getgrocerieslist",
+                success: function (data) {
+
+                    $('#groceriesList').fadeIn();
+                    var parsed_data = JSON.parse(data);
+
+                    $.each(parsed_data, function (index, item) {
+                        $('#groceriesList').append(
+                            "<li>" + item + "</li>"
+                        );
+                    });
+                }
+        });
+
+    </script>
+
+    <div id="loader"></div>
+
+    <table id="mainScreen" style="display:none;" align="center" class="animate-bottom">
+        <tr>
+            <td>
+                <iframe src="http://free.timeanddate.com/clock/i6ixyfs0/n37/tlde/fn2/fs20/tt0/tw1/ts1/tb4" frameborder="0" width="275" height="58"></iframe>
+            </td>
+
+            <td>
+                <table id="weatherPanel" style="display:none;" class="animate-bottom">
+
+                    <tr>
+                        <td rowspan="2">
+                            <i id="weatherIcon"></i>
+                        </td>
+                        <td>
+                            <p id="main"></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p id="description"></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p id="temp"></p>
+                        </td>
+                        <td>
+                            <p id="humidity"></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p id="pressure"></p>
+                        </td>
+                        <td>
+                            <p id="wind_speed"></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p id="temp_min"></p>
+                        </td>
+                        <td>
+                            <p id="temp_max"></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p id="sunrise"></p>
+                        </td>
+                        <td>
+                            <p id="sunset"></p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <ul id="travels" style="display:none;" class="animate-bottom"></ul>
+            </td>
+            <td>
+                <p>Groceries List: </p>
+                <ul id="groceriesList" style="display:none;" class="animate-bottom"></ul>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
