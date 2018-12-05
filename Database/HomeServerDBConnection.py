@@ -10,13 +10,13 @@ if dev_env:
 
 	DB_HOST = 'localhost'
 	DB_USER = 'root'
-	DB_PASSWORD = 'Cammello10'
+	DB_PASSWORD = '###'
 
 else:
 
 	DB_HOST = '192.168.2.103'
-	DB_USER = 'marins'
-	DB_PASSWORD = 'cammello10'
+	DB_USER = '##'
+	DB_PASSWORD = '###'
 
 DB_BASE_URI = 'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':3306'
 DB_URI = DB_BASE_URI + '/HomeWebServer?charset=utf8'
