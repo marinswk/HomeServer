@@ -5,16 +5,28 @@ def write_configuration(configuration):
 	try:
 		session.expire_all()
 
-		session.add(
-			Configuration(
-				name=configuration.name,
-				value=configuration.value,
-				description=configuration.description
+		existing_config = session.query(Configuration).filter(Configuration.name == configuration.name).first()
+
+		if existing_config:
+			session.query(Configuration).filter(
+				Configuration.name == configuration.name).update(
+				dict(
+					name=configuration.name,
+					value=configuration.value,
+					description=configuration.description
+				))
+		else:
+			session.merge(
+				Configuration(
+					name=configuration.name,
+					value=configuration.value,
+					description=configuration.description
+				)
 			)
-		)
 
 		session.commit()
 		session.close()
+
 	except Exception as ex:
 
 		print(ex)
