@@ -1,5 +1,6 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, request, jsonify
 import Database.HomeServerDBOperations as HomeServerDBOperations
+from Database.HomeServerDBConnection import Configuration
 import jsonpickle
 import BvgApiCalls
 import WeatherApiCalls
@@ -100,6 +101,43 @@ def display_home():
 	except Exception as ex:
 
 		return render_template('Errors.html', error_message=str(ex))
+
+
+@app.route('/', methods=["GET"])
+def display_settings_page():
+	try:
+
+		if config_dictionary:
+			return render_template('Configurations.html', config=config_dictionary)
+
+	except Exception as ex:
+
+		return render_template('Errors.html', error_message=str(ex))
+
+
+@app.route('/writeconfigurations', methods=["POST"])
+def write_configurations():
+	try:
+		data = request.json
+		global configurations
+		global config_dictionary
+
+		for key, value in data.items():
+			HomeServerDBOperations.write_configuration(Configuration(
+				name=key,
+				value=value
+			))
+
+		configurations = HomeServerDBOperations.read_configurations()
+		config_dictionary = {x.name: x.value for x in configurations}
+		session['configurations'] = config_dictionary
+
+		return jsonify(Status=True)
+
+	except Exception as ex:
+
+		print(ex)
+		return jsonify(Status=False)
 
 
 if __name__ == '__main__':

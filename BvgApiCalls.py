@@ -1,3 +1,4 @@
+from flask import session
 from urllib.parse import quote
 from dateutil.parser import parse
 from Support import fetch_url
@@ -66,21 +67,41 @@ def get_station_departures(station_id, time=None):
 
 		result = json.loads(response)
 
-		for _ in result:
-			date = parse(_['when']) if _['when'] else _['when']
-			travels.append(
-				Travel(
-					station_id=station_id,
-					direction=_['direction'],
-					time='{0:%H:%M}'.format(date) if _['when'] else _['when'],
-					date='{0:%H:%M %d-%m-%Y}'.format(date) if _['when'] else _['when'],
-					delay=_['delay'],
-					platform=_['platform'],
-					line_id=_['line']['id'],
-					line_name=_['line']['name'],
-					transport_type=_['line']['product']
+		if session['configurations']['BVGLine']:
+			line = session['configurations']['BVGLine'].lower()
+			for _ in result:
+				line_name = _['line']['name'].lower()
+				if line in line_name:
+					date = parse(_['when']) if _['when'] else _['when']
+					travels.append(
+						Travel(
+							station_id=station_id,
+							direction=_['direction'],
+							time='{0:%H:%M}'.format(date) if _['when'] else _['when'],
+							date='{0:%H:%M %d-%m-%Y}'.format(date) if _['when'] else _['when'],
+							delay=_['delay'],
+							platform=_['platform'],
+							line_id=_['line']['id'],
+							line_name=_['line']['name'],
+							transport_type=_['line']['product']
+						)
+					)
+		else:
+			for _ in result:
+				date = parse(_['when']) if _['when'] else _['when']
+				travels.append(
+					Travel(
+						station_id=station_id,
+						direction=_['direction'],
+						time='{0:%H:%M}'.format(date) if _['when'] else _['when'],
+						date='{0:%H:%M %d-%m-%Y}'.format(date) if _['when'] else _['when'],
+						delay=_['delay'],
+						platform=_['platform'],
+						line_id=_['line']['id'],
+						line_name=_['line']['name'],
+						transport_type=_['line']['product']
+					)
 				)
-			)
 
 		return travels
 	except Exception as ex:

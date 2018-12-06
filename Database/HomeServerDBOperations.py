@@ -11,16 +11,13 @@ def write_configuration(configuration):
 			session.query(Configuration).filter(
 				Configuration.name == configuration.name).update(
 				dict(
-					name=configuration.name,
-					value=configuration.value,
-					description=configuration.description
+					value=configuration.value
 				))
 		else:
 			session.merge(
 				Configuration(
 					name=configuration.name,
-					value=configuration.value,
-					description=configuration.description
+					value=configuration.value
 				)
 			)
 
