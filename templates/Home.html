@@ -9,7 +9,8 @@
     <link href="/static/Style/owfont/css/owfont-regular.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body onload="showPage()">
+
     <style>
         #mainScreen, th, td {
             border: 1px solid black;
@@ -17,7 +18,17 @@
     </style>
 
     <script>
-        $.ajax({
+
+        function showPage() {
+
+            updateDepartures();
+            updateWeather();
+            updateGroceries();
+        }
+
+
+        function updateDepartures() {
+            $.ajax({
                 type: "GET",
                 url: "/departures/{{ station_name }}",
                 success: function (data) {
@@ -40,9 +51,11 @@
                         );
                     });
                 }
-        });
+            });
+        }
 
-        $.ajax({
+        function updateWeather(){
+            $.ajax({
                 type: "GET",
                 url: "/weather/{{ city_name }}/{{ country }}",
                 success: function (data) {
@@ -65,9 +78,11 @@
                     $('#temp_min').text("Temp. Min: " + weatherData['temp_min'] + "°C");
                     $('#temp_max').text("Temp. Max: " + weatherData['temp_max'] + "°C");
                 }
-        });
+            });
+        }
 
-        $.ajax({
+        function updateGroceries(){
+            $.ajax({
                 type: "GET",
                 url: "/gkeep/getgrocerieslist",
                 success: function (data) {
@@ -81,7 +96,9 @@
                         );
                     });
                 }
-        });
+            });
+        }
+
 
     </script>
 
