@@ -1,7 +1,6 @@
-from flask import session
 from urllib.parse import quote
 from dateutil.parser import parse
-from Support import fetch_url
+from src.modules.Support import fetch_url, get_config_dictionary
 import json
 
 
@@ -28,7 +27,7 @@ class Travel:
 
 def get_station_id_by_name(station_name):
 	try:
-		url = "https://1.bvg.transport.rest/locations?addresses=false&query=" + quote(station_name)
+		url = "https://2.bvg.transport.rest/locations?addresses=false&query=" + quote(station_name)
 
 		response = fetch_url(url)
 
@@ -52,7 +51,8 @@ def get_station_id_by_name(station_name):
 def get_station_departures(station_id, time=None):
 	try:
 		travels = []
-		url = 'https://1.bvg.transport.rest/stations/' + station_id + '/departures'
+		url = 'https://2.bvg.transport.rest/stations/' + station_id + '/departures'
+		config = get_config_dictionary()
 
 		if time:
 			url += '?when=' + time
@@ -67,8 +67,8 @@ def get_station_departures(station_id, time=None):
 
 		result = json.loads(response)
 
-		if session['configurations']['BVGLine']:
-			line = session['configurations']['BVGLine'].lower()
+		if config['BVGLine']:
+			line = config['BVGLine'].lower()
 			for _ in result:
 				line_name = _['line']['name'].lower()
 				if line in line_name:

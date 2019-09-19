@@ -1,5 +1,5 @@
-from flask import session
-from Support import fetch_url, convert_utc_unix_timestamp_to_local_time_string, compare_dates
+from src.modules.Support import fetch_url, convert_utc_unix_timestamp_to_local_time_string, compare_dates, \
+	get_config_dictionary
 import json
 
 
@@ -32,8 +32,9 @@ class Weather:
 
 def get_city_weather_by_id(city_id):
 	try:
+		config = get_config_dictionary()
 		url = "https://api.openweathermap.org/data/2.5/weather?id=" + str(city_id) \
-			+ "&units=metric&appid=" + session['configurations']['OpenWeatherMapApiKey']
+			+ "&units=metric&appid=" + config['OpenWeatherMapApiKey']
 
 		response = fetch_url(url)
 		if type(response) == bytes:

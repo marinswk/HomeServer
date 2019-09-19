@@ -1,12 +1,13 @@
-from flask import session
 import gkeepapi
+from src.modules.Support import get_config_dictionary
 
 
 def get_keep_groceries_list():
 	try:
-		username = session['configurations']['GKeepUsername']
-		psw = session['configurations']['GKeepPassword']
-		groceries_list_id = session['configurations']['GKeepGroceriesId']
+		config = get_config_dictionary()
+		username = config['GKeepUsername']
+		psw = config['GKeepPassword']
+		groceries_list_id = config['GKeepGroceriesId']
 
 		keep = gkeepapi.Keep()
 		success = keep.login(username, psw)

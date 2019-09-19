@@ -1,5 +1,8 @@
+gkeepapi
 Click==7.0
 Flask==1.0.2
+Flask-Migrate==2.5.2
+Flask-SQLAlchemy==2.4.0
 itsdangerous==1.1.0
 Jinja2==2.10
 jsonpickle==1.0
