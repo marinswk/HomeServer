@@ -10,3 +10,7 @@ MarkupSafe==1.1.0
 py-dateutil==2.2
 six==1.11.0
 Werkzeug
+python-binance
+web3
+money
+requests

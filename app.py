@@ -13,6 +13,7 @@ from src.controllers.bvg import bvg_endpoints
 from src.controllers.weather import weather_endpoints
 from src.controllers.gkeep import gkeep_endpoints
 from src.controllers.configurations import config_endpoints
+from src.controllers.cryptocurrencies import crypto_endpoints
 from src.models.configuration import Configuration
 from src.modules import Support
 
@@ -20,6 +21,7 @@ app.register_blueprint(bvg_endpoints)
 app.register_blueprint(weather_endpoints)
 app.register_blueprint(gkeep_endpoints)
 app.register_blueprint(config_endpoints)
+app.register_blueprint(crypto_endpoints)
 
 app.secret_key = Config.SECRET_KEY
 
