@@ -52,7 +52,7 @@ def get_city_weather_by_id(city_id):
 
 def __load_cities():
 	try:
-		with open('Data/city.list.json') as json_data:
+		with open('Data/city.list.json', encoding="utf8") as json_data:
 			cities = json.load(json_data)
 			return cities
 
