@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
+<head>
+    <title>Wallet</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"
+          rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h2>Binance Wallet</h2>
+    <p>Total wallet value: {{ total.totalString }}</p>
+    <table class="table table-striped" data-sort-name="value" data-sort-order="desc">
+        <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Asset</th>
+            <th>Amount</th>
+            <th>Pair</th>
+            <th>Pair Rate</th>
+            <th data-field="value" data-sortable="true">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for asset in assets %}
+            <tr>
+                <td><img class="img img-fluid" src="{{ asset.logo }}" alt=""></td>
+                <td>{{ asset.asset }}</td>
+                <td>{{ asset.amount }}</td>
+                <td>{{ asset.FIAT }}/{{ asset.asset }}</td>
+                <td>{{ asset.pairValue }}</td>
+                <td>{{ asset.value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 </body>
+
 </html>

@@ -98,7 +98,7 @@ def get_binance_wallet_value(currency):
                                 'asset': coin['asset'],
                                 'amount': '%.2f' % amount,
                                 'FIAT': currency.upper(),
-                                currency.upper() + "/" + coin['asset']: '%.2f' % coin_data['price'],
+                                'pairValue': '%.2f' % coin_data['price'],
                                 'value': '%.2f' % value,
                                 'logo': coin_data['logo']
                             }

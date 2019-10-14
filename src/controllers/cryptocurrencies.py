@@ -18,7 +18,7 @@ def get_quotes(symbol, currency):
 def get_binance_wallet(currency):
     try:
         wallet = cryptoApi.get_binance_wallet_value(currency)
-        return json.dumps(wallet)
+        return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'])
     except Exception as e:
         print(e)
 
