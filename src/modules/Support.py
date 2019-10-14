@@ -50,3 +50,9 @@ def get_config_dictionary():
     configurations = db_operations.read_configurations()
     config_dictionary = {x.name: x.value for x in configurations}
     return config_dictionary
+
+
+def get_wallet_config_dictionary():
+    configurations = db_operations.read_configurations(is_crypto=True)
+    config_dictionary = {x.name: x.value for x in configurations}
+    return config_dictionary

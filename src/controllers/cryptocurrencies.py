@@ -18,18 +18,39 @@ def get_quotes(symbol, currency):
 def get_binance_wallet(currency):
     try:
         wallet = cryptoApi.get_binance_wallet_value(currency)
-        return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'])
+        return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'],
+                               title='Binance Wallet')
     except Exception as e:
         print(e)
 
 
-@crypto_endpoints.route('/eth/balance/<string:currency>/<string:address>', methods=['GET'])
-def get_eth_address_balance(currency, address):
+@crypto_endpoints.route('/manual/wallet/<string:currency>', methods=['GET'])
+def get_manual_wallet(currency):
     try:
-        wallet = cryptoApi.get_eth_address_balance_from_blockchain(currency, address)
+        wallet = cryptoApi.get_manual_assets_wallet(currency)
+        return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'],
+                               title='Manual Assets Wallet')
+    except Exception as e:
+        print(e)
+
+
+@crypto_endpoints.route('/eth/wallet/<string:currency>', methods=['GET'])
+def get_eth_address_balance(currency):
+    try:
+        wallet = cryptoApi.get_eth_address_balance_from_blockchain(currency)
         if wallet:
-            return json.dumps(wallet)
+            return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'],
+                                   title='ETH Addresses Wallet')
         else:
             return "There was a problem retrieving the ETH address balance"
+    except Exception as e:
+        print(e)
+
+
+@crypto_endpoints.route('/wallet/<string:currency>', methods=['GET'])
+def get_wallet(currency):
+    try:
+        wallet = cryptoApi.get_total_wallet(currency)
+        return render_template('wallet.html', total=wallet['walletValue'], assets=wallet['assets'], title='Wallet')
     except Exception as e:
         print(e)

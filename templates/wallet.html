@@ -15,9 +15,9 @@
 
 <body>
 <div class="container">
-    <h2>Binance Wallet</h2>
-    <p>Total wallet value: {{ total.totalString }}</p>
-    <table class="table table-striped" data-sort-name="value" data-sort-order="desc">
+    <h2>{{ title }}</h2>
+    <h3>Total wallet value: <b>{{ total.totalString }}</b></h3>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>Logo</th>
@@ -25,7 +25,8 @@
             <th>Amount</th>
             <th>Pair</th>
             <th>Pair Rate</th>
-            <th data-field="value" data-sortable="true">Value</th>
+            <th>Value</th>
+            <th>Exchange/Wallet</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
                 <td>{{ asset.FIAT }}/{{ asset.asset }}</td>
                 <td>{{ asset.pairValue }}</td>
                 <td>{{ asset.value }}</td>
+                <td>{{ asset.exchange }}</td>
             </tr>
         {% endfor %}
         </tbody>

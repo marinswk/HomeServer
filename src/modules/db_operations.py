@@ -1,4 +1,5 @@
 from src.models.configuration import Configuration
+from src.models.cryptocurrencies import CryptoWalletConfig, CryptoWalletManualAssets, ETHBlockchainAddresses
 from app import db
 
 
@@ -30,11 +31,43 @@ def write_configuration(configuration):
 		raise ex
 
 
-def read_configurations():
+def read_configurations(is_crypto=False):
 	try:
-
-		config = Configuration.query.all()
+		if is_crypto:
+			config = CryptoWalletConfig.query.all()
+		else:
+			config = Configuration.query.all()
 		return config
+
+	except Exception as ex:
+
+		print(ex)
+		raise ex
+
+
+def get_crypto_wallet_config_by_key(key):
+	try:
+		return CryptoWalletConfig.query.filter(CryptoWalletConfig.name == key).first().value
+
+	except Exception as ex:
+
+		print(ex)
+		raise ex
+
+
+def get_manual_assets():
+	try:
+		return CryptoWalletManualAssets.query.all()
+
+	except Exception as ex:
+
+		print(ex)
+		raise ex
+
+
+def get_eth_addresses():
+	try:
+		return ETHBlockchainAddresses.query.all()
 
 	except Exception as ex:
 
