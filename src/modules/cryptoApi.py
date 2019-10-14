@@ -14,14 +14,20 @@ ETH_BLOCKCHAIN_CONNECTION = ""
 
 def get_coin_market_cap_value_euro(symbol, currency):
     try:
-        json_response = get_coin_market_cap_data(symbol, currency)
-        if json_response['status']['error_code'] == 400:
-            return 0
+        coin_data = get_coin_market_cap_data(symbol, currency)
 
-        return json_response['data'][symbol.upper()]['quote'][currency.upper()]['price']
+        if coin_data['status']['error_code'] == 400:
+            return 0
+        coin_id = str(coin_data['data'][symbol.upper()]['id'])
+        coin_metadata = get_coin_market_cap_metadata(coin_id)
+        return {
+            'id': coin_id,
+            'price': coin_data['data'][symbol.upper()]['quote'][currency.upper()]['price'],
+            'logo': coin_metadata['data'][coin_id]['logo']
+        }
     except Exception as e:
         print(e)
-        raise e
+        return False
 
 
 def get_coin_market_cap_data(symbol, currency):
@@ -32,6 +38,25 @@ def get_coin_market_cap_data(symbol, currency):
                 'symbol': symbol.upper(),
                 'convert': currency.upper(),
                 'aux': 'num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply,market_cap_by_total_supply,volume_24h_reported,volume_7d,volume_7d_reported,volume_30d,volume_30d_reported'
+            },
+            headers={
+                'Accepts': 'application/json',
+                'X-CMC_PRO_API_KEY': COINMARKETCAP_API_KEY,
+            },
+        )
+        return response.json()
+    except Exception as e:
+        print(e)
+        raise e
+
+
+def get_coin_market_cap_metadata(coin_id):
+    try:
+        response = requests.get(
+            'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info',
+            params={
+                'id': coin_id,
+                'aux': 'urls,logo,description,tags,platform,date_added,notice,status'
             },
             headers={
                 'Accepts': 'application/json',
@@ -62,20 +87,22 @@ def get_binance_wallet_value(currency):
             coin_locked = float(coin['locked'])
 
             if coin_free > 0 or coin_locked > 0:
-                price = get_coin_market_cap_value_euro(coin['asset'], currency)
-                amount = coin_free + coin_locked
-                value = price * amount
-                if value > 0.01:
-                    wallet['walletValue']['total'] += value
-                    wallet['assets'].append(
-                        {
-                            'asset': coin['asset'],
-                            'amount': '%.2f' % amount,
-                            'FIAT': currency.upper(),
-                            currency.upper() + "/" + coin['asset']: '%.2f' % price,
-                            'value': '%.2f' % value
-                        }
-                    )
+                coin_data = get_coin_market_cap_value_euro(coin['asset'], currency)
+                if coin_data:
+                    amount = coin_free + coin_locked
+                    value = coin_data['price'] * amount
+                    if value > 1:
+                        wallet['walletValue']['total'] += value
+                        wallet['assets'].append(
+                            {
+                                'asset': coin['asset'],
+                                'amount': '%.2f' % amount,
+                                'FIAT': currency.upper(),
+                                currency.upper() + "/" + coin['asset']: '%.2f' % coin_data['price'],
+                                'value': '%.2f' % value,
+                                'logo': coin_data['logo']
+                            }
+                        )
         wallet['walletValue']['totalString'] = str(Money(wallet['walletValue']['total'], currency.upper()))
         return wallet
     except Exception as e:
