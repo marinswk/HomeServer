@@ -5,6 +5,7 @@
     <title>Wallet</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="600">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"
           rel="stylesheet"/>
@@ -20,6 +21,8 @@
         <button type="button" class="btn btn-secondary" onClick="location.href='/admin';">Configurations</button>
         <button type="button" class="btn btn-secondary" onClick="location.href='/wallet/eur';">Wallet</button>
     </div>
+    <br>
+
     <h2>{{ title }}</h2>
     <h3>Total wallet value: <b>{{ total.totalString }}</b></h3>
     <table class="table table-striped table-dark table-hover">
