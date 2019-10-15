@@ -5,6 +5,7 @@
     <title>Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="600">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css"
           rel="stylesheet"/>
@@ -16,6 +17,12 @@
 <body>
 
 <div class="container">
+    <div class="btn-group" role="group" aria-label="Basic example" style="display: table; margin: 0 auto;">
+        <button type="button" class="btn btn-secondary" onClick="location.href='/'">Home</button>
+        <button type="button" class="btn btn-secondary" onClick="location.href='/admin';">Configurations</button>
+        <button type="button" class="btn btn-secondary" onClick="location.href='/wallet/eur';">Wallet</button>
+    </div>
+
     <iframe src="http://free.timeanddate.com/clock/i6ixyfs0/n37/tlde/fn2/fs20/tt0/tw1/ts1/tb4" frameborder="0"
             class="text-center" style="display: block; margin: 0 auto;"></iframe>
     <div class="card-deck">
@@ -24,13 +31,15 @@
             <div class="card-header text-center">
                 {{ station_name }}
             </div>
-            {% for departure in bvg_data %}
-                <ul class="list-group list-group-flush">
-                    <li class="card-header">{{ departure.line_name }} to {{ departure.direction }}</li>
-                    <li class="list-group-item text-dark">Time: {{ departure.time }}</li>
-                    <li class="list-group-item text-dark">Delay: {{ departure.delay }}s</li>
-                </ul>
-            {% endfor %}
+            {% if bvg_data %}
+                {% for departure in bvg_data %}
+                    <ul class="list-group list-group-flush">
+                        <li class="card-header">{{ departure.line_name }} to {{ departure.direction }}</li>
+                        <li class="list-group-item text-dark">Time: {{ departure.time }}</li>
+                        <li class="list-group-item text-dark">Delay: {{ departure.delay }}s</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
         </div>
 
         <div class="card weather-card text-white bg-dark mb-3">
@@ -62,23 +71,18 @@
 
         </div>
 
-        <div class="card">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This
-                    content is
-                    a little longer.This card has even longer content than the first to show that equal height
-                    action.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-header text-center">
+                Groceries List
             </div>
+            {% if groceries_list %}
+                {% for item in groceries_list %}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-dark">{{ item.value }}</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
         </div>
-    </div>
-
-    <div class="btn-group" role="group" aria-label="Basic example" style="display: table; margin: 0 auto;">
-        <button type="button" class="btn btn-secondary">Left</button>
-        <button type="button" class="btn btn-secondary">Middle</button>
-        <button type="button" class="btn btn-secondary">Right</button>
     </div>
 </div>
 

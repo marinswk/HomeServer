@@ -1,4 +1,4 @@
-from src.modules import Support, WeatherApiCalls, BvgApiCalls
+from src.modules import Support, WeatherApiCalls, BvgApiCalls, our_groceries_api
 
 
 class HomeHelper:
@@ -27,6 +27,18 @@ class HomeHelper:
             if station:
                 departures = BvgApiCalls.get_station_departures(station.id)
                 return departures
+            else:
+                return False
+        except Exception as e:
+            print(e)
+            raise e
+
+    @staticmethod
+    def get_groceries_list():
+        try:
+            groceries_list = our_groceries_api.get_groceries_list()
+            if groceries_list:
+                return groceries_list
             else:
                 return False
         except Exception as e:
