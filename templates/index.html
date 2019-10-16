@@ -17,13 +17,6 @@
 <body>
 
 <div class="container">
-    <div class="btn-group" role="group" aria-label="Basic example" style="display: table; margin: 0 auto;">
-        <button type="button" class="btn btn-secondary" onClick="location.href='/'">Home</button>
-        <button type="button" class="btn btn-secondary" onClick="location.href='/admin';">Configurations</button>
-        <button type="button" class="btn btn-secondary" onClick="location.href='/wallet/eur';">Wallet</button>
-    </div>
-    <br>
-
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -32,13 +25,20 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item">
+                <div class="btn-group" role="group" aria-label="Basic example" style="display: table; margin: 0 auto;">
+                    <button type="button" class="btn btn-secondary" onClick="location.href='/'">Home</button>
+                    <button type="button" class="btn btn-secondary" onClick="location.href='/admin';">Configurations
+                    </button>
+                    <button type="button" class="btn btn-secondary" onClick="location.href='/wallet/eur';">Wallet
+                    </button>
+                </div>
                 <iframe src="http://free.timeanddate.com/clock/i6ixyfs0/n37/tlde/fn2/fs20/tt0/tw1/ts1/tb4"
                         frameborder="0"
                         class="text-center" style="display: block; margin: 0 auto;"></iframe>
             </div>
 
             <div class="carousel-item">
-                <div class="card text-white bg-dark mb-3">
+                <div class="card text-white bg-dark mb-12 sm-12">
                     <div class="card-header text-center">
                         {{ station_name }}
                     </div>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="carousel-item active">
-                <div class="card weather-card text-white bg-dark mb-3">
+                <div class="card weather-card text-white bg-dark mb-12 sm-12">
 
                     <!-- Card content -->
                     <div class="card-body pb-3">
@@ -64,7 +64,7 @@
                         <!-- Text -->
                         <p class="card-text">{{ weather_data.description }}</p>
                         <div class="d-flex justify-content-between">
-                            <p class="display-1 degree">{{ weather_data.temp }}°</p>
+                            <p class="display-4 degree">{{ weather_data.temp }}°</p>
                         </div>
                         <div class="d-flex justify-content-between mb-4">
                             <p><i class="fas fa-leaf fa-lg grey-text pr-2">max: {{ weather_data.temp_max }}°</i></p>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="carousel-item">
-                <div class="card text-white bg-dark mb-3">
+                <div class="card text-white bg-dark mb-12 sm-12">
                     <div class="card-header text-center">
                         Groceries List
                     </div>
