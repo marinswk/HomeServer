@@ -24,69 +24,93 @@
     </div>
     <br>
 
-    <iframe src="http://free.timeanddate.com/clock/i6ixyfs0/n37/tlde/fn2/fs20/tt0/tw1/ts1/tb4" frameborder="0"
-            class="text-center" style="display: block; margin: 0 auto;"></iframe>
-    <div class="card-deck">
-
-        <div class="card text-white bg-dark mb-3">
-            <div class="card-header text-center">
-                {{ station_name }}
-            </div>
-            {% if bvg_data %}
-                {% for departure in bvg_data %}
-                    <ul class="list-group list-group-flush">
-                        <li class="card-header">{{ departure.line_name }} to {{ departure.direction }}</li>
-                        <li class="list-group-item text-dark">Time: {{ departure.time }}</li>
-                        <li class="list-group-item text-dark">Delay: {{ departure.delay }}s</li>
-                    </ul>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="card weather-card text-white bg-dark mb-3">
-
-            <!-- Card content -->
-            <div class="card-body pb-3">
-                <!-- Title -->
-                <h4 class="card-title font-weight-bold">{{ weather_data.name }}</h4>
-                <!-- Text -->
-                <p class="card-text">{{ weather_data.description }}</p>
-                <div class="d-flex justify-content-between">
-                    <p class="display-1 degree">{{ weather_data.temp }}°</p>
-                </div>
-                <div class="d-flex justify-content-between mb-4">
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">max: {{ weather_data.temp_max }}°</i></p>
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">min: {{ weather_data.temp_min }}°</i></p>
-                </div>
-                <div class="d-flex justify-content-between mb-4">
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">sunrise: {{ weather_data.sunrise }}</i></p>
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">sunset: {{ weather_data.sunset }}</i></p>
-                </div>
-                <div class="d-flex justify-content-between mb-4">
-                    <p><i class="fas fa-tint fa-lg grey-text pr-2">{{ weather_data.pressure }} pa Pressure</i></p>
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">{{ weather_data.wind_speed }} km/h Winds</i></p>
-                    <p><i class="fas fa-leaf fa-lg grey-text pr-2">{{ weather_data.humidity }}% Humidity</i></p>
-                </div>
-
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <iframe src="http://free.timeanddate.com/clock/i6ixyfs0/n37/tlde/fn2/fs20/tt0/tw1/ts1/tb4"
+                        frameborder="0"
+                        class="text-center" style="display: block; margin: 0 auto;"></iframe>
             </div>
 
+            <div class="carousel-item">
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header text-center">
+                        {{ station_name }}
+                    </div>
+                    {% if bvg_data %}
+                        {% for departure in bvg_data %}
+                            <ul class="list-group list-group-flush">
+                                <li class="card-header">{{ departure.line_name }} to {{ departure.direction }}</li>
+                                <li class="list-group-item text-dark">Time: {{ departure.time }}</li>
+                                <li class="list-group-item text-dark">Delay: {{ departure.delay }}s</li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="carousel-item active">
+                <div class="card weather-card text-white bg-dark mb-3">
+
+                    <!-- Card content -->
+                    <div class="card-body pb-3">
+                        <!-- Title -->
+                        <h4 class="card-title font-weight-bold">{{ weather_data.name }}</h4>
+                        <!-- Text -->
+                        <p class="card-text">{{ weather_data.description }}</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="display-1 degree">{{ weather_data.temp }}°</p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">max: {{ weather_data.temp_max }}°</i></p>
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">min: {{ weather_data.temp_min }}°</i></p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">sunrise: {{ weather_data.sunrise }}</i></p>
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">sunset: {{ weather_data.sunset }}</i></p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p><i class="fas fa-tint fa-lg grey-text pr-2">{{ weather_data.pressure }} pa Pressure</i>
+                            </p>
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">{{ weather_data.wind_speed }} km/h Winds</i>
+                            </p>
+                            <p><i class="fas fa-leaf fa-lg grey-text pr-2">{{ weather_data.humidity }}% Humidity</i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header text-center">
+                        Groceries List
+                    </div>
+                    {% if groceries_list %}
+                        {% for item in groceries_list %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-dark">{{ item.value }}</li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
-        <div class="card text-white bg-dark mb-3">
-            <div class="card-header text-center">
-                Groceries List
-            </div>
-            {% if groceries_list %}
-                {% for item in groceries_list %}
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-dark">{{ item.value }}</li>
-                    </ul>
-                {% endfor %}
-            {% endif %}
-        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 </div>
-
 
 </body>
 
