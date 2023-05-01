@@ -1,6 +1,6 @@
 gkeepapi
 Click==7.0
-Flask==1.0.2
+Flask==2.3.2
 Flask-Migrate==2.5.2
 Flask-SQLAlchemy==2.4.0
 Flask-Admin
